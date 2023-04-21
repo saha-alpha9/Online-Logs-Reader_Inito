@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime Logs</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://rsms.me/raster/raster2.css?v=20">
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        html, p, body {
+            margin: 0;
+            padding: 0;
+        }
+        p{
+            margin-bottom: 0.35rem;
+        }
+        #logsdiv{
+            white-space: pre;
+            background: black;
+            color: white;
+            min-height: 100vh;
+            padding: 3rem;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="logsdiv" class="monospace"></div>
+</body>
+<script>
+    //create a socket connection
+    const socket = io();
+
+    //get the logs element
+    const elem = document.getElementById('logsdiv');
+
+    //listen for ddata
+    socket.on('logs', (data) => {
+
+        //create a new para
+        const p = document.createElement('p');
+
+        //set the text of the para to the data
+        p.innerText = data;
+
+        //append the para to the logs element
+        elem.appendChild(p);
+
+        //scroll to the bottom of the page
+        window.scroll(0,document.body.scrollHeight)
+
+    });
+</script>
+</html>
